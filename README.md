@@ -1,6 +1,235 @@
 # 박시현(202530110)
 
+
+
+# (10월 31일 강의)
+<font color = "orange">
+## 인터페이스의 구성 요소들의 특징
+* **상수** : 
+
+  -public만 허용, 
+
+  -public static final 생략
+
+
+* **추상 메소드** : 
+
+  -public abstract 생략 가능
+
+
+* **default 메소드** : 
+
+  -인터페이스에 코드가 작성된 메소드
+
+  -인터페이스를 구현하는 클래스에 자동 상속
+
+  -public 접근 지점만 허용. 생략 가능
+
+
+* private 메소드 : 
+
+  -인터페이스 내에 메소드 코드가 작성되어야 함
+
+  -인터페이스 내에 있는 다른 메소드에 의해서만 호출 가능
+
+
+* static 메소드 : public, private 모두 지정 가능. 생략하면 public
+
+## 자바 인터페이스 특징
+<font color = "orange"></font>
+* 인터페이스의 객체 생성 불가
+* 인터페이스 타입의 `레퍼런스 변수 선언 가능`
+
+## 인터페이스 상속
+* 인터페이스 간에 상속 가능 :
+
+  -인터페이스를 상속하여 확장된 인터페이스 작성 가능
+
+  -extends 키워드로 상속 선언
+
+* 인터페이스 다중 상속 허용 (* 일반 상속에서는 허용하지 않음)
+
+## 인터페이스 구현
+* 인터페이스의 추상 메소드를 모두 구현한 클래스 작성
+  * implements 키워드 사용
+  * 여러 개의 인터페이스 동시 구현 가능
+* 인터페이스 구현 사례
+  * PhoneInterface 인터페이스를 구현한 SamsungPhone 클래스
+
+
+
+## 추상 클래스
+* 추상 메소드(abstract method)
+
+  :abstract로 선언된 메소드, `메소드의 코드는 없고 원형만 선언`
+```java
+abstract public String getName();
+abstract public String fail() { return "Good Bye".} // 추상 메소드 아님. 컴파일 오류
+```
+
+* 추상 클래스(abstract class)
+
+  -추상 메소드를 가지며, abstract로 선언된 클래스
+
+  -추상 메소드 없이, abstract로 선언한 클래스
+
+```java
+// 추상 메소드를 가진 추상 클래스
+abstract class Shape {
+    public Shape() {...}
+    public void edit() {...}
+    
+    abstract public void draw(); // 추상 메소드
+}
+```
+```java
+// 추상 메소드 없는 추상 클래스
+abstract class JComponent {
+    String name;
+    public void load(String name) {
+        this.name = name;
+    }
+}
+```
+
+## 추상 클래스의 인스턴스 생성 불가
+* 추상 클래스는 온전한 클래스가 아니기 때문에 `인스턴스를 생성할 수 없음`
+
+```java
+JComponent p; // 오류 없음. 추상 클래스의 레퍼런스 선언
+p = new JComponent(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+Shape obj = new Shape(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+
+## 추상 클래스의 상속과 구현
+* 추상 클래스 상속
+    * 추상 클래스를 상속받으면 추상 클래스가 됨
+    * 서브 클래스도 abstract로 선언해야 함
+```java
+abstract class A { // 추상 클래스
+    abstract public int add(int x, int y); // 추상 메소드
+}
+abstract class B extends A { // 추상 클래스
+    public void show() { System.out.println("B");}
+}
+```
+```java
+A a = new A(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+B b = new B(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+* 추상 클래스 구현
+    * 서브 클래스에서 슈퍼 클래스의 추상 메소드 구현 (오버라이딩)
+    * 추상 클래스를 구현한 서브 클래스는 추상 클래스 아님
+```java
+class C extends A { // 추상 클래스 구현. C는 정상 클래스
+    public int add(int x, int y) { return x+y } // 추상 메소드 구현. 오버라이딩
+    public void show() { System.out.println("C"); }
+}
+...
+C c = new C(); // 정상
+```
+
+## 추상 클래스의 목적
+* 추상 클래스의 목적
+
+  -상속을 위한 슈퍼 클래스로 활용하는 것
+
+  -서브 클래스에서 추상 메소드 구현
+
+  -다형성 실현
+
+##
+
+
+## super 키워드로 슈퍼 클래스에 접근
+- 슈퍼 클래스의 멤버에 접근시 사용하는 레퍼런스
+- super.슈퍼클래스의 맴버
+- 서브 클래스에서만 사용
+- 슈퍼 클래스의 필드 접근
+- 슈퍼 클래스의 메소드 호출시 super로 이루어지는 메소드 호출 : 정적 바인딩
+
+## 메소드 오버라이딩(Method Overriding)의 개념
+* 서브 클래스에서 슈퍼 클래스의 메소드 중복 작성
+* 슈퍼 클래스의 메소드 무력화, 항상 서브 클래스에 오버라이딩한 메소드가 실행되도록 보장됨
+* 메소드 무시하기로 번역되기도 함
+
+* **오버라이딩 조건**
+  > 슈퍼 클래스 메소드의 원형(메소드 이름, 인자 타입 및 개수, 리턴 타입) 동일하게 작성
+
+## 서브 클래스 객체와 오버라이딩된 메소드 호출
+* 오버라이딩 한 메소드가 실행됨을 보장
+```java
+clas A {
+    void f() {
+        System.out.println("A의 f() 호출");
+    }
+} 
+class B extends A {
+    void f() {
+        System.out.println("B의 f() 호출");
+    }
+}
+```
+
+## 오버라이딩의 목적, 다형성 실현
+* 오버라이딩으로 다형성 실현
+* 하나의 인터페이스(다른 이름)에 서로 다른 구현
+* 슈퍼 클래스의 메소드를 서브 클래스에서 `각각 목적에 맞게 다르게 구현`
+* 사례 : shape의 draw() 메소드를 Line, Rect Circle에서 오버라이딩하여 다르게 구현
+
+## instanceof 연산자 사용
+* 레퍼런스가 가리키는 객체의 타입 식별 : 연산의 결과는 true/false의 불린 값으로 반환
+
+`객체레퍼런스 instanccof 클래스 타입`
+
+```java
+Person p = new Professor();
+
+if(p instanceof Person) // true
+if(p instanceof Student) // false, Student를 상속받지 않음
+if(p instanceof Researcher) // true
+if(p instanceof Professor) // true
+```
+```java
+if("java" instanceof String) // true
+```
+
+</font>
+
 # (10월 30일 강의)
+
+## 업캐스팅 레퍼런스로 객체 구별?
+* 업캐스팅된 레퍼런스로는 객체의 실제 타입을 구분하기 어려움
+* 슈퍼 클래스는 여러 서브 클래스에 상속되기 때문
+
+## 다운캐스팅(downcasting)
+* 슈퍼 클래스 레퍼런스를 서브 클래스 레퍼런스에 업캐스팅 된 것을 다시 원래대로 되돌리는 것
+* 반드시 명시적 타입 변환 지정
+```java
+class Person { }
+class Student extends Person { }
+
+Person p = new Student("이재문"); // 업캐스팅
+
+Student s = (Student)p; // 다운캐스팅
+```
+`강제 타입 변환`
+
+* 다운캐스팅 사례
+```java
+public class DowncastingEx {
+    static void main(String[] args) {
+        Person p = new Student("이재문"); // 업캐스팅
+        Student s;
+        
+        s = (Student)p; // 다운캐스팅
+
+        System.out.println(s.name); // 오류 없음
+        s.grade = "A"; // 오류 없음
+    }
+}
+```
+
 
 ## 업캐스팅(upcasting)
 * 생물이 들어가는 박스에 사람이나 코끼리를 넣어도 무방
